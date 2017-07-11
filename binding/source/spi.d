@@ -25,6 +25,7 @@ alias HeapTuple = size_t*; // access/htup.h
 alias TupleDesc = size_t*; // access/tupdesc.h
 alias Relation = size_t*; // utils/relcache.h
 alias Size = size_t; // include/c.h
+alias Portal = size_t*; // utils/portal.h
 
 enum SpiStatus
 {
@@ -152,15 +153,18 @@ Datum SPI_datumTransfer(Datum value, bool typByVal, int typLen);
 void SPI_freetuple(HeapTuple pointer);
 void SPI_freetuptable(SPITupleTable* tuptable);
 
-//~ extern Portal SPI_cursor_open(const char *name, SPIPlanPtr plan,
-                //~ Datum *Values, const char *Nulls, bool read_only);
-//~ extern Portal SPI_cursor_open_with_args(const char *name,
-                          //~ const char *src,
-                          //~ int nargs, Oid *argtypes,
-                          //~ Datum *Values, const char *Nulls,
-                          //~ bool read_only, int cursorOptions);
-//~ extern Portal SPI_cursor_open_with_paramlist(const char *name, SPIPlanPtr plan,
-                               //~ ParamListInfo params, bool read_only);
+Portal SPI_cursor_open(const(char)* name, SPIPlanPtr plan,
+                Datum* Values, const(char)* Nulls, bool read_only);
+
+Portal SPI_cursor_open_with_args(const(char)* name,
+                          const(char)* src,
+                          int nargs, Oid* argtypes,
+                          Datum* Values, const(char)* Nulls,
+                          bool read_only, int cursorOptions);
+
+Portal SPI_cursor_open_with_paramlist(const(char)* name, SPIPlanPtr plan,
+                               ParamListInfo params, bool read_only);
+
 //~ extern Portal SPI_cursor_find(const char *name);
 //~ extern void SPI_cursor_fetch(Portal portal, bool forward, long count);
 //~ extern void SPI_cursor_move(Portal portal, bool forward, long count);
