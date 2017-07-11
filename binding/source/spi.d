@@ -24,6 +24,7 @@ alias Snapshot = size_t*; // utils/snapshot.h
 alias HeapTuple = size_t*; // access/htup.h
 alias TupleDesc = size_t*; // access/tupdesc.h
 alias Relation = size_t*; // utils/relcache.h
+alias Size = size_t; // include/c.h
 
 enum SpiStatus
 {
@@ -144,12 +145,12 @@ Oid SPI_gettypeid(TupleDesc tupdesc, int fnumber);
 char* SPI_getrelname(Relation rel);
 char* SPI_getnspname(Relation rel);
 
-//~ extern void *SPI_palloc(Size size);
-//~ extern void *SPI_repalloc(void *pointer, Size size);
-//~ extern void SPI_pfree(void *pointer);
-//~ extern Datum SPI_datumTransfer(Datum value, bool typByVal, int typLen);
-//~ extern void SPI_freetuple(HeapTuple pointer);
-//~ extern void SPI_freetuptable(SPITupleTable *tuptable);
+void* SPI_palloc(Size size);
+void* SPI_repalloc(void* pointer, Size size);
+void SPI_pfree(void* pointer);
+Datum SPI_datumTransfer(Datum value, bool typByVal, int typLen);
+void SPI_freetuple(HeapTuple pointer);
+void SPI_freetuptable(SPITupleTable* tuptable);
 
 //~ extern Portal SPI_cursor_open(const char *name, SPIPlanPtr plan,
                 //~ Datum *Values, const char *Nulls, bool read_only);
