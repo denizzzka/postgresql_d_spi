@@ -165,12 +165,12 @@ Portal SPI_cursor_open_with_args(const(char)* name,
 Portal SPI_cursor_open_with_paramlist(const(char)* name, SPIPlanPtr plan,
                                ParamListInfo params, bool read_only);
 
-//~ extern Portal SPI_cursor_find(const char *name);
-//~ extern void SPI_cursor_fetch(Portal portal, bool forward, long count);
-//~ extern void SPI_cursor_move(Portal portal, bool forward, long count);
-//~ extern void SPI_scroll_cursor_fetch(Portal, FetchDirection direction, long count);
-//~ extern void SPI_scroll_cursor_move(Portal, FetchDirection direction, long count);
-//~ extern void SPI_cursor_close(Portal portal);
+Portal SPI_cursor_find(const(char)* name);
+void SPI_cursor_fetch(Portal portal, bool forward, c_long count);
+void SPI_cursor_move(Portal portal, bool forward, c_long count);
+void SPI_scroll_cursor_fetch(Portal, FetchDirection direction, c_long count);
+void SPI_scroll_cursor_move(Portal, FetchDirection direction, c_long count);
+void SPI_cursor_close(Portal portal);
 
 //~ extern int  SPI_register_relation(EphemeralNamedRelation enr);
 //~ extern int  SPI_unregister_relation(const char *name);
@@ -178,3 +178,11 @@ Portal SPI_cursor_open_with_paramlist(const(char)* name, SPIPlanPtr plan,
 
 //~ extern void AtEOXact_SPI(bool isCommit);
 //~ extern void AtEOSubXact_SPI(bool isCommit, SubTransactionId mySubid);
+
+enum FetchDirection
+{
+    FETCH_FORWARD,
+    FETCH_BACKWARD,
+    FETCH_ABSOLUTE,
+    FETCH_RELATIVE
+}
