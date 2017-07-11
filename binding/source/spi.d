@@ -1,14 +1,8 @@
 /// Server Programming Interface public declarations
 module binding.spi;
 
-//~ #include "commands/trigger.h"
-//~ #include "lib/ilist.h"
-//~ #include "nodes/parsenodes.h"
-//~ #include "utils/portal.h"
 import core.stdc.config;
 import derelict.pq.pq: Oid;
-
-//~ alias uint64 = ulong;
 
 extern(System) nothrow @nogc:
 
