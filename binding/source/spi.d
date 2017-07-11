@@ -22,6 +22,8 @@ alias ParamListInfo = size_t*; //FIXME: ditto
 // From nodes/params.h:
 alias ParserSetupHook = void function(ParseState* pstate, void* arg);
 struct ParseState;
+struct SnapshotData; // utils/snapshot.h
+alias Snapshot = SnapshotData*; // ditto
 
 enum SpiStatus
 {
@@ -88,6 +90,12 @@ int SPI_exec(const(char)* src, c_long tcount);
 int SPI_execp(SPIPlanPtr plan, Datum* Values, const(char)* Nulls,
           c_long tcount);
 
+int SPI_execute_snapshot(SPIPlanPtr plan,
+                     Datum* Values, const(char)* Nulls,
+                     Snapshot snapshot,
+                     Snapshot crosscheck_snapshot,
+                     bool read_only, bool fire_triggers, c_long tcount);
+
 int SPI_execute_with_args(const(char)* src,
                       int nargs, Oid* argtypes,
                       Datum* Values, const(char)* Nulls,
@@ -103,9 +111,11 @@ SPIPlanPtr SPI_prepare_params(const(char)* src,
                    void* parserSetupArg,
                    int cursorOptions);
 
-//~ extern int  SPI_keepplan(SPIPlanPtr plan);
-//~ extern SPIPlanPtr SPI_saveplan(SPIPlanPtr plan);
-//~ extern int  SPI_freeplan(SPIPlanPtr plan);
+int SPI_keepplan(SPIPlanPtr plan);
+
+SPIPlanPtr SPI_saveplan(SPIPlanPtr plan);
+
+int SPI_freeplan(SPIPlanPtr plan);
 
 //~ extern Oid  SPI_getargtypeid(SPIPlanPtr plan, int argIndex);
 //~ extern int  SPI_getargcount(SPIPlanPtr plan);
