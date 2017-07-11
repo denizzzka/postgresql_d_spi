@@ -5,30 +5,26 @@ module binding.spi;
 //~ #include "lib/ilist.h"
 //~ #include "nodes/parsenodes.h"
 //~ #include "utils/portal.h"
+import core.stdc.config;
+
+//~ alias uint64 = ulong;
 
 extern(System) nothrow @nogc:
 
-struct SPITupleTable
-{
-    MemoryContext tuptabcxt;    /** memory context of result table */
-    uint64      alloced;        /** # of alloced vals */
-    uint64      free;           /** # of free vals */
-    TupleDesc   tupdesc;        /** tuple descriptor */
-    HeapTuple*  vals;           /** tuples */
-    slist_node  next;           /** link for internal bookkeeping */
-    SubTransactionId subid;     /** subxact in which tuptable was created */
-}
+struct SPITupleTable;
 
 /** Plans are opaque structs for standard users of SPI */
-//~ typedef struct _SPI_plan *SPIPlanPtr;
+alias SPIPlanPtr = size_t*;
+alias Datum = size_t*; //FIXME: change it to actual Datum
+alias ParamListInfo = size_t*; //FIXME: ditto
 
 enum SpiStatus
 {
-    SPI_ERROR_CONNECT = -1,
-    SPI_ERROR_COPY = -2,
+    SPI_ERROR_CONNECT =     -1,
+    SPI_ERROR_COPY =        -2,
     SPI_ERROR_OPUNKNOWN =   -3,
     SPI_ERROR_UNCONNECTED = -4,
-    SPI_ERROR_CURSOR =      -5,    /** not used anymore */
+    SPI_ERROR_CURSOR =      -5, /** not used anymore */
     SPI_ERROR_ARGUMENT =    -6,
     SPI_ERROR_PARAM =       -7,
     SPI_ERROR_TRANSACTION = -8,
@@ -69,17 +65,24 @@ enum SpiStatus
 //~ extern PGDLLIMPORT SPITupleTable *SPI_tuptable;
 //~ extern PGDLLIMPORT int SPI_result;
 
-//~ extern int  SPI_connect(void);
-//~ extern int  SPI_finish(void);
-//~ extern int  SPI_execute(const char *src, bool read_only, long tcount);
-//~ extern int SPI_execute_plan(SPIPlanPtr plan, Datum *Values, const char *Nulls,
-                 //~ bool read_only, long tcount);
-//~ extern int SPI_execute_plan_with_paramlist(SPIPlanPtr plan,
-                                //~ ParamListInfo params,
-                                //~ bool read_only, long tcount);
-//~ extern int  SPI_exec(const char *src, long tcount);
-//~ extern int SPI_execp(SPIPlanPtr plan, Datum *Values, const char *Nulls,
-          //~ long tcount);
+int SPI_connect();
+
+int SPI_finish();
+
+int SPI_execute(const(char)* src, bool read_only, c_long tcount);
+
+int SPI_execute_plan(SPIPlanPtr plan, Datum* Values, const(char)* Nulls,
+    bool read_only, c_long tcount);
+
+int SPI_execute_plan_with_paramlist(SPIPlanPtr plan,
+                                ParamListInfo params,
+                                bool read_only, c_long tcount);
+
+int SPI_exec(const(char)* src, c_long tcount);
+
+int SPI_execp(SPIPlanPtr plan, Datum* Values, const(char)* Nulls,
+          c_long tcount);
+
 //~ extern int SPI_execute_snapshot(SPIPlanPtr plan,
                      //~ Datum *Values, const char *Nulls,
                      //~ Snapshot snapshot,

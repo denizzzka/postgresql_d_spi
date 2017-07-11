@@ -3,3 +3,9 @@ description "PostgreSQL SPI"
 authors "Denis Feklushkin"
 copyright "Copyright © 2017, Denis Feklushkin"
 license "MIT"
+
+subPackage {
+	name "binding"
+	targetType "library" # "sourceLibrary"
+	sourcePaths "binding/source"
+}
