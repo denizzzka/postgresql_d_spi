@@ -1,0 +1,5 @@
+name "postgresql_d_spi"
+description "PostgreSQL SPI"
+authors "Denis Feklushkin"
+copyright "Copyright © 2017, Denis Feklushkin"
+license "MIT"
