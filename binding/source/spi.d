@@ -18,12 +18,12 @@ struct SPITupleTable;
 alias SPIPlanPtr = size_t*;
 alias Datum = size_t*; //FIXME: change it to actual Datum
 alias ParamListInfo = size_t*; //FIXME: ditto
-
-// From nodes/params.h:
-alias ParserSetupHook = void function(ParseState* pstate, void* arg);
-struct ParseState;
-struct SnapshotData; // utils/snapshot.h
-alias Snapshot = SnapshotData*; // ditto
+alias ParserSetupHook = void function(ParseState* pstate, void* arg); // nodes/params.h:
+struct ParseState; // parser/parse_node.h
+alias Snapshot = size_t*; // utils/snapshot.h
+alias HeapTuple = size_t*; // access/htup.h
+alias TupleDesc = size_t*; // access/tupdesc.h
+alias Relation = size_t*; // utils/relcache.h
 
 enum SpiStatus
 {
@@ -134,14 +134,16 @@ const(char)* SPI_result_code_string(int code);
 //~ extern HeapTupleHeader SPI_returntuple(HeapTuple tuple, TupleDesc tupdesc);
 //~ extern HeapTuple SPI_modifytuple(Relation rel, HeapTuple tuple, int natts,
                 //~ int *attnum, Datum *Values, const char *Nulls);
-//~ extern int  SPI_fnumber(TupleDesc tupdesc, const char *fname);
-//~ extern char *SPI_fname(TupleDesc tupdesc, int fnumber);
-//~ extern char *SPI_getvalue(HeapTuple tuple, TupleDesc tupdesc, int fnumber);
-//~ extern Datum SPI_getbinval(HeapTuple tuple, TupleDesc tupdesc, int fnumber, bool *isnull);
-//~ extern char *SPI_gettype(TupleDesc tupdesc, int fnumber);
-//~ extern Oid  SPI_gettypeid(TupleDesc tupdesc, int fnumber);
-//~ extern char *SPI_getrelname(Relation rel);
-//~ extern char *SPI_getnspname(Relation rel);
+
+int SPI_fnumber(TupleDesc tupdesc, const(char)* fname);
+char* SPI_fname(TupleDesc tupdesc, int fnumber);
+char* SPI_getvalue(HeapTuple tuple, TupleDesc tupdesc, int fnumber);
+Datum SPI_getbinval(HeapTuple tuple, TupleDesc tupdesc, int fnumber, bool* isnull);
+char* SPI_gettype(TupleDesc tupdesc, int fnumber);
+Oid SPI_gettypeid(TupleDesc tupdesc, int fnumber);
+char* SPI_getrelname(Relation rel);
+char* SPI_getnspname(Relation rel);
+
 //~ extern void *SPI_palloc(Size size);
 //~ extern void *SPI_repalloc(void *pointer, Size size);
 //~ extern void SPI_pfree(void *pointer);
