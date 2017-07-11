@@ -19,6 +19,10 @@ alias SPIPlanPtr = size_t*;
 alias Datum = size_t*; //FIXME: change it to actual Datum
 alias ParamListInfo = size_t*; //FIXME: ditto
 
+// From nodes/params.h:
+alias ParserSetupHook = void function(ParseState* pstate, void* arg);
+struct ParseState;
+
 enum SpiStatus
 {
     SPI_ERROR_CONNECT =     -1,
@@ -91,12 +95,14 @@ int SPI_execute_with_args(const(char)* src,
 
 SPIPlanPtr SPI_prepare(const(char)* src, int nargs, Oid* argtypes);
 
-//~ extern SPIPlanPtr SPI_prepare_cursor(const char *src, int nargs, Oid *argtypes,
-                   //~ int cursorOptions);
-//~ extern SPIPlanPtr SPI_prepare_params(const char *src,
-                   //~ ParserSetupHook parserSetup,
-                   //~ void *parserSetupArg,
-                   //~ int cursorOptions);
+SPIPlanPtr SPI_prepare_cursor(const(char)* src, int nargs, Oid* argtypes,
+                   int cursorOptions);
+
+SPIPlanPtr SPI_prepare_params(const(char)* src,
+                   ParserSetupHook parserSetup,
+                   void* parserSetupArg,
+                   int cursorOptions);
+
 //~ extern int  SPI_keepplan(SPIPlanPtr plan);
 //~ extern SPIPlanPtr SPI_saveplan(SPIPlanPtr plan);
 //~ extern int  SPI_freeplan(SPIPlanPtr plan);
