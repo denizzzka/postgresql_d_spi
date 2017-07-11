@@ -3,6 +3,8 @@ description "PostgreSQL SPI"
 authors "Denis Feklushkin"
 copyright "Copyright © 2017, Denis Feklushkin"
 license "MIT"
+dependency ":binding" version="*"
+targetType "library"
 
 subPackage {
 	name "binding"

@@ -1,5 +1,5 @@
 /// Server Programming Interface public declarations
-module binding.spi;
+module postgresql_d_spi.binding.spi;
 
 import core.stdc.config;
 import derelict.pq.pq: Oid;
