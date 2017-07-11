@@ -6,6 +6,7 @@ module binding.spi;
 //~ #include "nodes/parsenodes.h"
 //~ #include "utils/portal.h"
 import core.stdc.config;
+import derelict.pq.pq: Oid;
 
 //~ alias uint64 = ulong;
 
@@ -83,16 +84,13 @@ int SPI_exec(const(char)* src, c_long tcount);
 int SPI_execp(SPIPlanPtr plan, Datum* Values, const(char)* Nulls,
           c_long tcount);
 
-//~ extern int SPI_execute_snapshot(SPIPlanPtr plan,
-                     //~ Datum *Values, const char *Nulls,
-                     //~ Snapshot snapshot,
-                     //~ Snapshot crosscheck_snapshot,
-                     //~ bool read_only, bool fire_triggers, long tcount);
-//~ extern int SPI_execute_with_args(const char *src,
-                      //~ int nargs, Oid *argtypes,
-                      //~ Datum *Values, const char *Nulls,
-                      //~ bool read_only, long tcount);
-//~ extern SPIPlanPtr SPI_prepare(const char *src, int nargs, Oid *argtypes);
+int SPI_execute_with_args(const(char)* src,
+                      int nargs, Oid* argtypes,
+                      Datum* Values, const(char)* Nulls,
+                      bool read_only, c_long tcount);
+
+SPIPlanPtr SPI_prepare(const(char)* src, int nargs, Oid* argtypes);
+
 //~ extern SPIPlanPtr SPI_prepare_cursor(const char *src, int nargs, Oid *argtypes,
                    //~ int cursorOptions);
 //~ extern SPIPlanPtr SPI_prepare_params(const char *src,
